@@ -74,10 +74,16 @@ To create a new migration
 ## Run project
 
 ### Frontend server
-`npm run dev`
+Note: Make sure you run `npm install` in the following two directories - `gitpay/` as well as `gitpay/frontend/`  
+To run the frontend server, navigate to path `gitpay/frontend/` and run the following:    
+```
+npm run dev
+```
 
 ### Backend (node.js)
-`npm run start:dev`
+```
+npm run start:dev
+```
 
 Then you can access at http://localhost:8082
 
