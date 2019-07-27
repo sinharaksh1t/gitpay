@@ -1,25 +1,25 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
+// import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { store } from '../../main/app'
 
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Grid,
-  Tooltip,
-  FormControl,
-  FormHelperText,
-  Avatar,
-  TextField,
-  Typography,
-  CircularProgress,
-  Menu,
-  MenuItem,
-  Button,
+  // Dialog,
+  // DialogActions,
+  // DialogContent,
+  // DialogContentText,
+  // DialogTitle,
+  // Grid,
+  // Tooltip,
+  // FormControl,
+  // FormHelperText,
+  // Avatar,
+  // TextField,
+  // Typography,
+  // CircularProgress,
+  // Menu,
+  // MenuItem,
+  // Button,
   withStyles,
   SwipeableDrawer,
   AppBar,
@@ -28,22 +28,22 @@ import {
   ListItemText,
 } from '@material-ui/core'
 import {
-  AddBox,
-  Person,
-  LibraryBooks,
-  ViewList,
+  // AddBox,
+  // Person,
+  // LibraryBooks,
+  // ViewList,
   ViewHeadline,
 } from '@material-ui/icons'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSlack } from '@fortawesome/free-brands-svg-icons'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faSlack } from '@fortawesome/free-brands-svg-icons'
 
 import humanFormat from 'human-format'
 
 import { withRouter } from 'react-router-dom'
 import { updateIntl } from 'react-intl-redux'
 
-import nameInitials from 'name-initials'
+// import nameInitials from 'name-initials'
 import isGithubUrl from 'is-github-url'
 
 import {
@@ -53,28 +53,28 @@ import {
   RightSide,
   Logo,
   StyledButton,
-  LabelButton,
-  StyledAvatar,
-  StyledAvatarIconOnly,
-  OnlyDesktop
+  // LabelButton,
+  // StyledAvatar,
+  // StyledAvatarIconOnly,
+  // OnlyDesktop
 } from './TopbarStyles'
 
 import messagesBr from '../../translations/result/br.json'
 import messagesEn from '../../translations/result/en.json'
 
-import LoginButton from '../session/login-button'
+// import LoginButton from '../session/login-button'
 
 const logo = require('../../images/gitpay-logo.png')
-const logoGithub = require('../../images/github-logo-alternative.png')
-const logoBitbucket = require('../../images/bitbucket-logo.png')
+// const logoGithub = require('../../images/github-logo-alternative.png')
+// const logoBitbucket = require('../../images/bitbucket-logo.png')
 
-const logoLangEn = require('../../images/united-states-of-america.png')
-const logoLangBr = require('../../images/brazil.png')
+// const logoLangEn = require('../../images/united-states-of-america.png')
+// const logoLangBr = require('../../images/brazil.png')
 
-const languagesIcons = {
-  en: logoLangEn,
-  br: logoLangBr
-}
+// const languagesIcons = {
+//   en: logoLangEn,
+//   br: logoLangBr
+// }
 
 const messages = {
   'br': messagesBr,
@@ -94,9 +94,9 @@ const localStorageLang = () => {
   return localStorage.getItem('userLanguage')
 }
 
-const logoLang = (lang) => {
-  return languagesIcons[lang]
-}
+// const logoLang = (lang) => {
+//   return languagesIcons[lang]
+// }
 
 const currentUserLanguage = (preferences) => {
   const prefLang = preferences.language
@@ -270,11 +270,11 @@ class TopBar extends Component {
   }
 
   render () {
-    const { completed, user, preferences } = this.props
-    const isLoggedIn = this.props.logged
-    const anchorEl = this.state.anchorEl
-    const userCurrentLanguage = currentUserLanguage(preferences)
-    let channelUserCount = ''
+    // const { completed, user, preferences } = this.props
+    // const isLoggedIn = this.props.logged
+    // const anchorEl = this.state.anchorEl
+    // const userCurrentLanguage = currentUserLanguage(preferences)
+    // let channelUserCount = ''
     if (this.props.channelUserCount) {
       const count = humanFormat(this.props.channelUserCount, {
         decimals: 1,
@@ -283,80 +283,80 @@ class TopBar extends Component {
       channelUserCount = `(${count})`
     }
 
-    const CreateTaskDialogOverlay = () => (
-      <div>
-        { /* The form below is an Overlay item that is rendered on top of the application when the user clicks on "Create Task" */ }
-        <form onSubmit={ this.handleCreateTask } action='POST'>
-          <Dialog
-            open={ this.state.createTaskDialog }
-            onClose={ this.handleClickDialogCreateTaskClose }
-            aria-label='form-dialog-title'
-          >
-            <DialogTitle id='form-dialog-title'>
-              <FormattedMessage id='task.actions.insert.new' defaultMessage='Insert a new task' />
-            </DialogTitle>
+    // const CreateTaskDialogOverlay = () => (
+    //   <div>
+    //     { /* The form below is an Overlay item that is rendered on top of the application when the user clicks on "Create Task" */ }
+    //     <form onSubmit={ this.handleCreateTask } action='POST'>
+    //       <Dialog
+    //         open={ this.state.createTaskDialog }
+    //         onClose={ this.handleClickDialogCreateTaskClose }
+    //         aria-label='form-dialog-title'
+    //       >
+    //         <DialogTitle id='form-dialog-title'>
+    //           <FormattedMessage id='task.actions.insert.new' defaultMessage='Insert a new task' />
+    //         </DialogTitle>
 
-            <DialogContent>
-              <DialogContentText>
-                <Typography type='subheading' gutterBottom>
-                  <FormattedHTMLMessage id='task.actions.insert.subheading' defaultMessage='Paste the url of an incident of <strong>Github</strong> or <strong>Bitbucket</strong>' />
-                </Typography>
-              </DialogContentText>
+    //         <DialogContent>
+    //           <DialogContentText>
+    //             <Typography type='subheading' gutterBottom>
+    //               <FormattedHTMLMessage id='task.actions.insert.subheading' defaultMessage='Paste the url of an incident of <strong>Github</strong> or <strong>Bitbucket</strong>' />
+    //             </Typography>
+    //           </DialogContentText>
 
-              <FormControl style={ styles.formControl } error={ this.state.task.url.error }>
-                <TextField error={ this.state.task.url.error }
-                  onChange={ this.onChange }
-                  autoFocus
-                  margin='dense'
-                  id='url'
-                  name='url'
-                  label='URL'
-                  type='url'
-                  fullWidth
-                />
-                <div style={ { marginTop: 10, marginBottom: 10 } }>
-                  <Button
-                    style={ { marginRight: 10 } }
-                    color='primary'
-                    variant={ this.state.provider === 'github' ? 'raised' : 'outline' }
-                    id='github'
-                    onClick={ (e) => this.handleProvider(e, 'github') }
-                  >
-                    <img width='16' src={ logoGithub } />
-                    <span style={ { marginLeft: 10 } }>Github</span>
-                  </Button>
+    //           <FormControl style={ styles.formControl } error={ this.state.task.url.error }>
+    //             <TextField error={ this.state.task.url.error }
+    //               onChange={ this.onChange }
+    //               autoFocus
+    //               margin='dense'
+    //               id='url'
+    //               name='url'
+    //               label='URL'
+    //               type='url'
+    //               fullWidth
+    //             />
+    //             <div style={ { marginTop: 10, marginBottom: 10 } }>
+    //               <Button
+    //                 style={ { marginRight: 10 } }
+    //                 color='primary'
+    //                 variant={ this.state.provider === 'github' ? 'raised' : 'outline' }
+    //                 id='github'
+    //                 onClick={ (e) => this.handleProvider(e, 'github') }
+    //               >
+    //                 <img width='16' src={ logoGithub } />
+    //                 <span style={ { marginLeft: 10 } }>Github</span>
+    //               </Button>
 
-                  <Button
-                    color='primary'
-                    variant={ this.state.provider === 'bitbucket' ? 'raised' : 'outline' }
-                    id='bitbucket'
-                    onClick={ (e) => this.handleProvider(e, 'bitbucket') }
-                  >
-                    <img width='16' src={ logoBitbucket } />
-                    <span style={ { marginLeft: 10 } }>Bitbucket</span>
-                  </Button>
-                </div>
+    //               <Button
+    //                 color='primary'
+    //                 variant={ this.state.provider === 'bitbucket' ? 'raised' : 'outline' }
+    //                 id='bitbucket'
+    //                 onClick={ (e) => this.handleProvider(e, 'bitbucket') }
+    //               >
+    //                 <img width='16' src={ logoBitbucket } />
+    //                 <span style={ { marginLeft: 10 } }>Bitbucket</span>
+    //               </Button>
+    //             </div>
 
-                { this.state.task.url.error &&
-                  <FormHelperText error={ this.state.task.url.error }>
-                    <FormattedMessage id='task.actions.insert.novalid' defaultMessage='This is not a valid URL' />
-                  </FormHelperText>
-                }
-              </FormControl>
-            </DialogContent>
+    //             { this.state.task.url.error &&
+    //               <FormHelperText error={ this.state.task.url.error }>
+    //                 <FormattedMessage id='task.actions.insert.novalid' defaultMessage='This is not a valid URL' />
+    //               </FormHelperText>
+    //             }
+    //           </FormControl>
+    //         </DialogContent>
 
-            <DialogActions>
-              <Button onClick={ this.handleClickDialogCreateTaskClose } color='primary'>
-                <FormattedMessage id='task.actions.cancel' defaultMessage='Cancel' />
-              </Button>
-              <Button disabled={ !completed } onClick={ this.handleCreateTask } variant='contained' color='secondary' >
-                <FormattedMessage id='task.actions.insert.label' defaultMessage='Insert' />
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </form>
-      </div>
-    )
+    //         <DialogActions>
+    //           <Button onClick={ this.handleClickDialogCreateTaskClose } color='primary'>
+    //             <FormattedMessage id='task.actions.cancel' defaultMessage='Cancel' />
+    //           </Button>
+    //           <Button disabled={ !completed } onClick={ this.handleCreateTask } variant='contained' color='secondary' >
+    //             <FormattedMessage id='task.actions.insert.label' defaultMessage='Insert' />
+    //           </Button>
+    //         </DialogActions>
+    //       </Dialog>
+    //     </form>
+    //   </div>
+    // );
 
     return (
       <Bar>
@@ -386,7 +386,8 @@ class TopBar extends Component {
                 </ListItem>
               </List>
             </SwipeableDrawer>
-            <StyledButton
+
+            { /* <StyledButton
               onClick={ this.handleClickDialogCreateTask }
               variant='contained'
               size='small'
@@ -592,8 +593,7 @@ class TopBar extends Component {
                   </Grid>
                 </Grid>
               </DialogContent>
-            </Dialog>
-
+            </Dialog> */ }
           </RightSide>
         </Container>
       </Bar>
@@ -602,7 +602,7 @@ class TopBar extends Component {
 }
 
 TopBar.propTypes = {
-  location: PropTypes.object,
+  // location: PropTypes.object,
   history: PropTypes.object,
   user: PropTypes.object,
   preferences: PropTypes.object,
@@ -611,7 +611,7 @@ TopBar.propTypes = {
   updateUser: PropTypes.func,
   signOut: PropTypes.func,
   logged: PropTypes.bool,
-  completed: PropTypes.bool,
+  // completed: PropTypes.bool,
 }
 
 export default withRouter(withStyles(styles)(TopBar))
