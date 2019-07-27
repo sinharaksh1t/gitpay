@@ -20,13 +20,19 @@ import {
   Menu,
   MenuItem,
   Button,
-  withStyles
+  withStyles,
+  SwipeableDrawer,
+  AppBar,
+  List,
+  ListItem,
+  ListItemText,
 } from '@material-ui/core'
 import {
   AddBox,
   Person,
   LibraryBooks,
-  ViewList
+  ViewList,
+  ViewHeadline,
 } from '@material-ui/icons'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -126,7 +132,8 @@ class TopBar extends Component {
       provider: 'github',
       createTaskDialog: false,
       signUserDialog: false,
-      joinSlackDialog: false
+      joinSlackDialog: false,
+      hamburgerOpen: false,
     }
   }
 
@@ -276,15 +283,109 @@ class TopBar extends Component {
       channelUserCount = `(${count})`
     }
 
+    const CreateTaskDialogOverlay = () => (
+      <div>
+        { /* The form below is an Overlay item that is rendered on top of the application when the user clicks on "Create Task" */ }
+        <form onSubmit={ this.handleCreateTask } action='POST'>
+          <Dialog
+            open={ this.state.createTaskDialog }
+            onClose={ this.handleClickDialogCreateTaskClose }
+            aria-label='form-dialog-title'
+          >
+            <DialogTitle id='form-dialog-title'>
+              <FormattedMessage id='task.actions.insert.new' defaultMessage='Insert a new task' />
+            </DialogTitle>
+
+            <DialogContent>
+              <DialogContentText>
+                <Typography type='subheading' gutterBottom>
+                  <FormattedHTMLMessage id='task.actions.insert.subheading' defaultMessage='Paste the url of an incident of <strong>Github</strong> or <strong>Bitbucket</strong>' />
+                </Typography>
+              </DialogContentText>
+
+              <FormControl style={ styles.formControl } error={ this.state.task.url.error }>
+                <TextField error={ this.state.task.url.error }
+                  onChange={ this.onChange }
+                  autoFocus
+                  margin='dense'
+                  id='url'
+                  name='url'
+                  label='URL'
+                  type='url'
+                  fullWidth
+                />
+                <div style={ { marginTop: 10, marginBottom: 10 } }>
+                  <Button
+                    style={ { marginRight: 10 } }
+                    color='primary'
+                    variant={ this.state.provider === 'github' ? 'raised' : 'outline' }
+                    id='github'
+                    onClick={ (e) => this.handleProvider(e, 'github') }
+                  >
+                    <img width='16' src={ logoGithub } />
+                    <span style={ { marginLeft: 10 } }>Github</span>
+                  </Button>
+
+                  <Button
+                    color='primary'
+                    variant={ this.state.provider === 'bitbucket' ? 'raised' : 'outline' }
+                    id='bitbucket'
+                    onClick={ (e) => this.handleProvider(e, 'bitbucket') }
+                  >
+                    <img width='16' src={ logoBitbucket } />
+                    <span style={ { marginLeft: 10 } }>Bitbucket</span>
+                  </Button>
+                </div>
+
+                { this.state.task.url.error &&
+                  <FormHelperText error={ this.state.task.url.error }>
+                    <FormattedMessage id='task.actions.insert.novalid' defaultMessage='This is not a valid URL' />
+                  </FormHelperText>
+                }
+              </FormControl>
+            </DialogContent>
+
+            <DialogActions>
+              <Button onClick={ this.handleClickDialogCreateTaskClose } color='primary'>
+                <FormattedMessage id='task.actions.cancel' defaultMessage='Cancel' />
+              </Button>
+              <Button disabled={ !completed } onClick={ this.handleCreateTask } variant='contained' color='secondary' >
+                <FormattedMessage id='task.actions.insert.label' defaultMessage='Insert' />
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </form>
+      </div>
+    )
+
     return (
       <Bar>
         <Container>
+          Gitpay logo
           <LeftSide>
             <StyledButton href='/'>
               <Logo src={ logo } />
             </StyledButton>
           </LeftSide>
           <RightSide>
+
+            <StyledButton
+              onClick={ () => this.setState({ hamburgerOpen: true }) }
+              variant='contained'
+              size='small'
+              color='primary'
+            >
+              <ViewHeadline />
+            </StyledButton>
+
+            <SwipeableDrawer anchor='right' open={ this.state.hamburgerOpen } onClose={ () => this.setState({ hamburgerOpen: false }) } onOpen={ () => this.setState({ hamburgerOpen: true }) }>
+              <AppBar title='Menu' />
+              <List>
+                <ListItem>
+                  <ListItemText primary='hello world' />
+                </ListItem>
+              </List>
+            </SwipeableDrawer>
             <StyledButton
               onClick={ this.handleClickDialogCreateTask }
               variant='contained'
@@ -375,75 +476,11 @@ class TopBar extends Component {
               )
             }
 
-            <form onSubmit={ this.handleCreateTask } action='POST'>
-              <Dialog
-                open={ this.state.createTaskDialog }
-                onClose={ this.handleClickDialogCreateTaskClose }
-                aria-label='form-dialog-title'
-              >
-                <DialogTitle id='form-dialog-title'>
-                  <FormattedMessage id='task.actions.insert.new' defaultMessage='Insert a new task' />
-                </DialogTitle>
-
-                <DialogContent>
-                  <DialogContentText>
-                    <Typography type='subheading' gutterBottom>
-                      <FormattedHTMLMessage id='task.actions.insert.subheading' defaultMessage='Paste the url of an incident of <strong>Github</strong> or <strong>Bitbucket</strong>' />
-                    </Typography>
-                  </DialogContentText>
-
-                  <FormControl style={ styles.formControl } error={ this.state.task.url.error }>
-                    <TextField error={ this.state.task.url.error }
-                      onChange={ this.onChange }
-                      autoFocus
-                      margin='dense'
-                      id='url'
-                      name='url'
-                      label='URL'
-                      type='url'
-                      fullWidth
-                    />
-                    <div style={ { marginTop: 10, marginBottom: 10 } }>
-                      <Button
-                        style={ { marginRight: 10 } }
-                        color='primary'
-                        variant={ this.state.provider === 'github' ? 'raised' : 'outline' }
-                        id='github'
-                        onClick={ (e) => this.handleProvider(e, 'github') }
-                      >
-                        <img width='16' src={ logoGithub } />
-                        <span style={ { marginLeft: 10 } }>Github</span>
-                      </Button>
-
-                      <Button
-                        color='primary'
-                        variant={ this.state.provider === 'bitbucket' ? 'raised' : 'outline' }
-                        id='bitbucket'
-                        onClick={ (e) => this.handleProvider(e, 'bitbucket') }
-                      >
-                        <img width='16' src={ logoBitbucket } />
-                        <span style={ { marginLeft: 10 } }>Bitbucket</span>
-                      </Button>
-                    </div>
-
-                    { this.state.task.url.error &&
-                      <FormHelperText error={ this.state.task.url.error }>
-                        <FormattedMessage id='task.actions.insert.novalid' defaultMessage='This is not a valid URL' />
-                      </FormHelperText>
-                    }
-                  </FormControl>
-                </DialogContent>
-
-                <DialogActions>
-                  <Button onClick={ this.handleClickDialogCreateTaskClose } color='primary'>
-                    <FormattedMessage id='task.actions.cancel' defaultMessage='Cancel' />
-                  </Button>
-                  <Button disabled={ !completed } onClick={ this.handleCreateTask } variant='contained' color='secondary' >
-                    <FormattedMessage id='task.actions.insert.label' defaultMessage='Insert' />
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </form>
+            {
+              this.state.createTaskDialog
+                ? <CreateTaskDialogOverlay />
+                : null
+            }
 
             <FormattedMessage id='task.actions.tooltip.language' defaultMessage='Choose your language'>
               { (msg) => (
@@ -556,6 +593,7 @@ class TopBar extends Component {
                 </Grid>
               </DialogContent>
             </Dialog>
+
           </RightSide>
         </Container>
       </Bar>
