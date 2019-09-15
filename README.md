@@ -33,6 +33,7 @@ Join the Github team to be assigned to tasks and to be part of the core.
 
 ## Requirements
 
+// I highly suggest that we update this. Since this is really important and there are many cool features that is brought in by Node v11.x.x
 * Node.js (currently at v8.6.0)
 * React with webpack
 
